@@ -25,8 +25,20 @@ function moveNoButton() {
   const maxX = window.innerWidth - noBtn.offsetWidth;
   const maxY = window.innerHeight - noBtn.offsetHeight;
 
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
+  let randomX, randomY;
+  let validPosition = false;
+
+  while (!validPosition) {
+    randomX = Math.random() * maxX;
+    randomY = Math.random() * maxY;
+
+    const noBtnRect = { left: randomX, top: randomY, right: randomX + noBtn.offsetWidth, bottom: randomY + noBtn.offsetHeight };
+    const yesBtnRect = yesBtn.getBoundingClientRect();
+
+    if (noBtnRect.right < yesBtnRect.left || noBtnRect.left > yesBtnRect.right || noBtnRect.bottom < yesBtnRect.top || noBtnRect.top > yesBtnRect.bottom) {
+      validPosition = true;
+    }
+  }
 
   noBtn.style.left = `${randomX}px`;
   noBtn.style.top = `${randomY}px`;
